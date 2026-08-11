@@ -5,12 +5,17 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
+from app.core.security import require_admin_key
 from app.models.account import Account
 from app.models.wallet import Wallet
 from app.schemas.orx import AccountCreate
 
 
-router = APIRouter(prefix="/api/v1/accounts", tags=["Accounts"])
+router = APIRouter(
+    prefix="/api/v1/accounts",
+    tags=["Accounts"],
+    dependencies=[Depends(require_admin_key)],
+)
 
 
 @router.post("", status_code=status.HTTP_201_CREATED)
