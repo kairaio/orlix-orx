@@ -26,6 +26,7 @@ jobs:
           --health-retries=5
 
     env:
+      PYTHONPATH: .
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@localhost:5432/orx
       REDIS_URL: redis://localhost:6379/0
       ADMIN_API_KEY: test-admin-key
