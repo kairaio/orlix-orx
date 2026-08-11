@@ -1,7 +1,11 @@
 from fastapi import FastAPI
 
+from app.api.accounts import router as accounts_router
 from app.api.health import router as health_router
 from app.api.orx import router as orx_router
+from app.api.transactions import router as transactions_router
+from app.api.treasury import router as treasury_router
+from app.api.wallets import router as wallets_router
 from app.core.config import settings
 
 
@@ -14,9 +18,12 @@ app = FastAPI(
     ),
 )
 
-
 app.include_router(health_router)
 app.include_router(orx_router)
+app.include_router(accounts_router)
+app.include_router(wallets_router)
+app.include_router(transactions_router)
+app.include_router(treasury_router)
 
 
 @app.get("/")
@@ -24,9 +31,9 @@ def root():
     return {
         "project": "ORX",
         "full_name": "ORLIX Digital Currency",
-        "network": "ORLIX",
+        "network": settings.currency_network,
         "version": settings.app_version,
-        "status": "foundation",
+        "status": "mvp",
         "docs": "/docs",
         "health": "/health",
         "orx": "/api/v1/orx",
