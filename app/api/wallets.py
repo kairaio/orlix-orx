@@ -3,11 +3,16 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
+from app.core.security import require_admin_key
 from app.models.wallet import Wallet
 from app.services.ledger import get_wallet_balance
 
 
-router = APIRouter(prefix="/api/v1/wallets", tags=["Wallets"])
+router = APIRouter(
+    prefix="/api/v1/wallets",
+    tags=["Wallets"],
+    dependencies=[Depends(require_admin_key)],
+)
 
 
 @router.get("/{wallet_id}")
