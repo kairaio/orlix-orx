@@ -3,12 +3,17 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
+from app.core.security import require_admin_key
 from app.models.ledger import JournalEntry, LedgerEntry
 from app.schemas.orx import TransferRequest
 from app.services.ledger import transfer
 
 
-router = APIRouter(prefix="/api/v1/transactions", tags=["Transactions"])
+router = APIRouter(
+    prefix="/api/v1/transactions",
+    tags=["Transactions"],
+    dependencies=[Depends(require_admin_key)],
+)
 
 
 @router.post("/transfer")
